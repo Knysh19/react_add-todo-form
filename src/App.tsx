@@ -9,7 +9,7 @@ import todosFromServer from './api/todos';
 export const App = () => {
   const [users] = useState(usersFromServer);
   const [title, setTitle] = useState('');
-  const [selectedUserId, setSelectedUserId] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
   const [todoList, setTodoList] = useState(todosFromServer);
   const [titleErrorMessage, setTitleErrorMessage] = useState('');
   const [userSelectionErrorMessage, setUserSelectionErrorMessage] =
@@ -27,7 +27,7 @@ export const App = () => {
       return;
     }
 
-    if (selectedUserId === '') {
+    if (selectedUserId === null) {
       setUserSelectionErrorMessage('Please choose a user');
 
       return;
@@ -80,9 +80,9 @@ export const App = () => {
         <div className="field">
           <select
             data-cy="userSelect"
-            value={selectedUserId}
-            onChange={newSelectedUser =>
-              setSelectedUserId(newSelectedUser.target.value)
+            value={selectedUserId ?? ''}
+            onChange={newSelectedUserId =>
+              setSelectedUserId(Number(newSelectedUserId.target.value))
             }
           >
             <option value="">Choose a user</option>
